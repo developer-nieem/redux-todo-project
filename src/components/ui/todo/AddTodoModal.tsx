@@ -1,21 +1,30 @@
 import { useState } from "react";
 import { Button } from "../button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../dialog";
 import { Input } from "../input";
 import { Label } from "../label";
+import { useAppDispatch } from "@/redux/hook";
+import { addTodo } from "@/redux/featurs/todoSlice";
 
 const AddTodoModal = () => {
 
     const [title , setTitle ] = useState('')
     const [description , setDescription ] = useState('')
 
+    const dispatch = useAppDispatch()
 
     const onSubmit = (e )=> {
         e.preventDefault();
 
-        console.log(title, description);
+        const todoDetails  = {
+            title : title,
+            description : description
+        }
+
+        console.log(todoDetails);
         
 
+        dispatch(addTodo(todoDetails))
 
     }
 
@@ -32,14 +41,14 @@ const AddTodoModal = () => {
               Make changes to your profile here. Click save when you're done.
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={onSubmit} className="grid gap-4 py-4">
+          <form onSubmit={onSubmit}>
+          <div  className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
                 Title
               </Label>
               <Input
                 id="title"
-                defaultValue="Pedro Duarte"
                 className="col-span-3"
                 name="title"
                 onChange={(e) => setTitle(e.target.value)}
@@ -51,16 +60,16 @@ const AddTodoModal = () => {
               </Label>
               <Input
                 id="description"
-                defaultValue="@peduarte"
                 className="col-span-3"
                 name="description"
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-          </form>
-          <DialogFooter  asChild >
+          </div>
+          <div  className="flex justify-end">
             <Button type="submit">Save changes</Button>
-          </DialogFooter>
+          </div>
+          </form>
         </DialogContent>
       </Dialog>
 

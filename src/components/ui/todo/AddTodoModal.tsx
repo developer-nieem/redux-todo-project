@@ -5,26 +5,31 @@ import { Input } from "../input";
 import { Label } from "../label";
 import { useAppDispatch } from "@/redux/hook";
 import { addTodo } from "@/redux/featurs/todoSlice";
+import { useAddTodosMutation } from "@/redux/api/api";
 
 const AddTodoModal = () => {
 
     const [title , setTitle ] = useState('')
     const [description , setDescription ] = useState('')
 
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
+
+    const [addTodo , {data, isLoading , isError , isSuccess} ] = useAddTodosMutation()
 
     const onSubmit = (e )=> {
         e.preventDefault();
 
         const todoDetails  = {
             title : title,
-            description : description
+            details : description,
+            status : "Running"
         }
 
         console.log(todoDetails);
         
 
-        dispatch(addTodo(todoDetails))
+        // dispatch(addTodo(todoDetails))
+        addTodo(todoDetails)
 
     }
 
